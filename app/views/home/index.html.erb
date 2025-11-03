@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <label for="example-getting-started" class="fw-bold mb-2">
+    Ingredientes:
+  </label>
+  <select class="selectpicker" multiple aria-label="size 3 select example">
+    <option value="cheese">Cheese</option>
+    <option value="tomatoes">Tomatoes</option>
+    <option value="Mozzarella">Mozzarella</option>
+    <option value="Mushrooms">Mushrooms</option>
+    <option value="Pepperoni">Pepperoni</option>
+    <option value="Onions">Onions</option>
+  </select>
+</div>
+
+<script>
+  document.addEventListener("turbo:load", () => {
+    $('.selectpicker').selectpicker();
+  });
+</script>
