@@ -29,8 +29,8 @@
   Tira Mi Su
 </button>
 <!-- 📋 Tabla principal -->
-<table id="TablaOrdenesTrabajos" class="table table-striped m-2" data-controller="orden-trabajo">
-  <thead>
+<table id="TablaOrdenesTrabajos" class="table-striped table table-responsive" data-controller="orden-trabajo">
+  <thead  class="table-dark">
     <tr>
       <th>Ot</th>
       <th>Cliente</th>
@@ -40,6 +40,7 @@
       <th>Proceso</th>
       <th>Fecha entrega</th>
       <th>Observaciones</th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
@@ -91,7 +92,9 @@
                     class="selectpicker"
                     multiple
                     title="Procesos"
-                    data-live-search="true">
+                    data-live-search="true"
+                    data-width="100%"
+                    data-controller="selectpicker">
               <% OrdenTrabajo::POST.each do |elemento_post| %>
                 <option value="<%= elemento_post %>"
                         <%= "selected" if cadenatovector(orden_trabajo.procesos).include?(elemento_post) %>>
