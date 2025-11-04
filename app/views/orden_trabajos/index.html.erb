@@ -29,7 +29,8 @@
   Tira Mi Su
 </button>
 <!-- 📋 Tabla principal -->
-<table id="TablaOrdenesTrabajos" class="table-striped table table-responsive" data-controller="orden-trabajo">
+
+<table id="TablaOrdenesTrabajos" class="table table-striped table-hover table-responsive align-middle text-center" data-controller="orden-trabajo">
   <thead  class="table-dark">
     <tr>
       <th>Ot</th>
@@ -51,9 +52,10 @@
                       remote: true,
                       data: { action: "turbo:submit-end->orden-trabajo#actualizado" } do |f| %>
           <td>
-            <button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= orden_trabajo.id %>>
-              <%= orden_trabajo.trnum %>
-            </button>
+            
+            <%= link_to orden_trabajo.trnum, 
+                  copy_path(orden_trabajo.id),
+                  class: "btn btn-info btn-sm" %>
           </td>
           <td><%= link_to orden_trabajo.clinom, orden_trabajo_path(orden_trabajo) %></td>
           <td><%= orden_trabajo.nomprod.first(30) %></td>
@@ -65,28 +67,6 @@
                          {}, class: "form-select form-select-sm" %>
           </td>
           <td>
-            <script>
-              document.addEventListener("turbo:load", () => {
-                const $select = $("#orden_trabajo_procesos_<%= orden_trabajo.id %>");
-
-                if ($select.length) {
-                  // 🔄 Destruye instancias previas (por Turbo)
-                  $select.selectpicker('destroy');
-                  // ✅ Inicializa el Bootstrap Select
-                  $select.selectpicker();
-
-                  // 🎯 Evento de cambio de selección
-                  $select.on("changed.bs.select", function () {
-                    const seleccion = $(this).val() || [];
-                    console.log("Procesos seleccionados:", seleccion);
-
-                    // Actualiza el campo oculto para enviarlo al servidor
-                    $("#hidden_procesos_<%= orden_trabajo.id %>").val(seleccion.join(","));
-                  });
-                }
-              });
-            </script>
-
             <!-- 🧩 Selector múltiple de procesos -->
             <select id="orden_trabajo_procesos_<%= orden_trabajo.id %>"
                     class="selectpicker"

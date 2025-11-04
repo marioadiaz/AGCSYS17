@@ -13,6 +13,8 @@ pin "bootstrap", to: "bootstrap.js"
 pin "bootstrap.bundle", to: "bootstrap.bundle.min.js"
 #pin "bootstrap-select", to: "bootstrap-select.min.js"
 
-pin "@fortawesome/fontawesome-free", to: "@fortawesome--fontawesome-free.js" # @7.1.0
+pin "@fortawesome/fontawesome-free", to: "fontawesome-free/js/all.js"
 pin "custom/scroll_top", to: "custom/scroll_top.js"
 pin "custom/buscador_datos", to: "custom/buscador_datos.js"
+pin "custom/selectpicker", to: "custom/selectpicker.js"
+

@@ -5,9 +5,11 @@
                   data: { action: "turbo:submit-end->orden-trabajo#actualizado" } do |f| %>
 
       <!-- OT -->
-      <td><button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= @orden_trabajo.id %>>
-                <%= @orden_trabajo.trnum %>
-              </button></td>
+      <td>
+        <button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= @orden_trabajo.id %>>
+          <%= @orden_trabajo.trnum %>
+        </button>
+      </td>
       <td><%= link_to @orden_trabajo.clinom, orden_trabajo_path(@orden_trabajo) %></td>
       <td><%= @orden_trabajo.nomprod.first(30) %></td>
       <td><%= @orden_trabajo.trcan %></td>
