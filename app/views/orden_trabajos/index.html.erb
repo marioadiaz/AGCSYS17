@@ -49,9 +49,10 @@
         <%= form_with model: orden_trabajo,
                       remote: true,
                       data: { action: "turbo:submit-end->orden-trabajo#actualizado" } do |f| %>
-          <td><button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= orden_trabajo.id %>>
-                <%= orden_trabajo.trnum %>
-              </button>
+          <td>
+            <button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= orden_trabajo.id %>>
+              <%= orden_trabajo.trnum %>
+            </button>
           </td>
           <td><%= link_to orden_trabajo.clinom, orden_trabajo_path(orden_trabajo) %></td>
           <td><%= orden_trabajo.nomprod.first(30) %></td>
@@ -90,8 +91,7 @@
                     class="selectpicker"
                     multiple
                     title="Procesos"
-                    data-live-search="true"
-                    data-width="100%">
+                    data-live-search="true">
               <% OrdenTrabajo::POST.each do |elemento_post| %>
                 <option value="<%= elemento_post %>"
                         <%= "selected" if cadenatovector(orden_trabajo.procesos).include?(elemento_post) %>>

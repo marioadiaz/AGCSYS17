@@ -96,13 +96,17 @@ class OrdenTrabajosController < ApplicationController
   # PATCH/PUT /orden_trabajos/1 or /orden_trabajos/1.json
 
   def update
+    @orden_trabajo = OrdenTrabajo.find(params[:id])
+    
     if @orden_trabajo.update(orden_trabajo_params)
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_to ordenes_trabajo_path, notice: "Orden actualizada" }
+        format.html { redirect_to orden_trabajo_path, notice: "Orden actualizada" }
       end
     else
-      render :index, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -86,12 +86,14 @@
         <td><%= orden_trabajo.trcar.try(:strftime, "%e %B") %></td>
         <td><%= orden_trabajo.deadline.try(:strftime, "%e %B") %></td>
         <td class="text-center">
-          <%= link_to '',
-                      orden_trabajo,
-                      method: :delete,
-                      data: { confirm: '¿Estás seguro/a?' },
-                      remote: true,
-                      class: 'delete_ot btn-lg glyphicon glyphicon-trash text-danger' %>
+          <%= link_to orden_trabajo_path(orden_trabajo),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "¿Eliminar esta orden?"
+                        },
+                        class: "btn btn-danger btn-sm" do %>
+              <i class="fa-solid fa-trash"></i>
+            <% end %>
         </td>
       </tr>
     <% end %>

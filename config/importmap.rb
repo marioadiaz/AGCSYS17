@@ -6,11 +6,13 @@ pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 
-pin "@fortawesome/fontawesome-free", to: "@fortawesome--fontawesome-free.js" # @7.1.0
-
 pin "jquery", to: "jquery.js"
 #pin "jquery", to: "jquery.min.js"
 #pin "@popperjs/core", to: "@popperjs--core.js" # @2.11.8
 pin "bootstrap", to: "bootstrap.js"
 pin "bootstrap.bundle", to: "bootstrap.bundle.min.js"
 #pin "bootstrap-select", to: "bootstrap-select.min.js"
+
+pin "@fortawesome/fontawesome-free", to: "@fortawesome--fontawesome-free.js" # @7.1.0
+pin "custom/scroll_top", to: "custom/scroll_top.js"
+pin "custom/buscador_datos", to: "custom/buscador_datos.js"
