@@ -1,0 +1,139 @@
+<p id="notice"><%= notice %></p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <!-- 🧮 Contador -->
+  <div class="ml-3">
+    <h3 class="mb-0">
+      Planilla de control:
+      <button type="button" class="btn btn-dark btn-sm ms-2">
+        <strong><%= @contador %></strong>
+      </button>
+    </h3>
+  </div>
+  <!-- 🔍 Buscador -->
+  <div class="flex-grow-1 text-center my-2">
+    <input class="form-control d-inline-block w-50"
+           id="buscador_datos"
+           type="text"
+           placeholder="Buscar trabajo...">
+  </div>
+  <!-- ➕ Nuevo trabajo -->
+  <div class="me-3">
+    <%= link_to '+ Nuevo trabajo', new_orden_trabajo_path, class: 'btn btn-success btn-lg' %>
+  </div>
+</div>
+<!-- 🔝 Botón volver arriba -->
+<button onclick="topFunction()" id="myBtn" title="Volver arriba"
+        class="btn btn-danger shadow fw-bold text-white"
+        style="display:none; position:fixed; bottom:40px; right:40px; z-index:9999;
+               border-radius:8px; padding:10px 20px; font-size:16px;">
+  Tira Mi Su
+</button>
+<!-- 📋 Tabla principal -->
+<table id="TablaOrdenesTrabajos" class="table table-striped m-2" data-controller="orden-trabajo">
+  <thead>
+    <tr>
+      <th>Ot</th>
+      <th>Cliente</th>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Estado actual</th>
+      <th>Proceso</th>
+      <th>Fecha entrega</th>
+      <th>Observaciones</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orden_trabajos.each do |orden_trabajo| %>
+      <tr id="<%= dom_id(orden_trabajo) %>">
+        <%= form_with model: orden_trabajo,
+                      remote: true,
+                      data: { action: "turbo:submit-end->orden-trabajo#actualizado" } do |f| %>
+          <td><button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= orden_trabajo.id %>>
+                <%= orden_trabajo.trnum %>
+              </button>
+          </td>
+          <td><%= link_to orden_trabajo.clinom, orden_trabajo_path(orden_trabajo) %></td>
+          <td><%= orden_trabajo.nomprod.first(30) %></td>
+          <td><%= orden_trabajo.trcan %></td>
+          <td>
+            <%= f.select :estado_actual,
+                         ["Pendiente", "Cliente", "Ismael diseño", "Edu diseño", "Miguel diseño",
+                          "Gina", "Diseño 3ro", "Control", "CTP", "Impresión", "Terminación", "Empaque"],
+                         {}, class: "form-select form-select-sm" %>
+          </td>
+          <td>
+            <script>
+              document.addEventListener("turbo:load", () => {
+                const $select = $("#orden_trabajo_procesos_<%= orden_trabajo.id %>");
+
+                if ($select.length) {
+                  // 🔄 Destruye instancias previas (por Turbo)
+                  $select.selectpicker('destroy');
+                  // ✅ Inicializa el Bootstrap Select
+                  $select.selectpicker();
+
+                  // 🎯 Evento de cambio de selección
+                  $select.on("changed.bs.select", function () {
+                    const seleccion = $(this).val() || [];
+                    console.log("Procesos seleccionados:", seleccion);
+
+                    // Actualiza el campo oculto para enviarlo al servidor
+                    $("#hidden_procesos_<%= orden_trabajo.id %>").val(seleccion.join(","));
+                  });
+                }
+              });
+            </script>
+
+            <!-- 🧩 Selector múltiple de procesos -->
+            <select id="orden_trabajo_procesos_<%= orden_trabajo.id %>"
+                    class="selectpicker"
+                    multiple
+                    title="Procesos"
+                    data-live-search="true"
+                    data-width="100%">
+              <% OrdenTrabajo::POST.each do |elemento_post| %>
+                <option value="<%= elemento_post %>"
+                        <%= "selected" if cadenatovector(orden_trabajo.procesos).include?(elemento_post) %>>
+                  <%= elemento_post %>
+                </option>
+              <% end %>
+            </select>
+
+            <!-- Campo oculto para almacenar el resultado final -->
+            <%= f.hidden_field :procesos, id: "hidden_procesos_#{orden_trabajo.id}" %>
+          <td>
+            <%= f.date_field :deadline,
+                             value: orden_trabajo.deadline,
+                             class: "form-control form-control-sm" %>
+          </td>
+          <td>
+            <%= f.text_field :observaciones,
+                             value: orden_trabajo.observaciones,
+                             placeholder: "Observaciones",
+                             class: "form-control form-control-sm",
+                             size: 20 %>
+          </td>
+          <td class="text-center">
+            <%= f.submit "Actualizar",
+                         class: "btn btn-primary btn-sm",
+                         data: { orden_trabajo_target: "submitButton" } %>
+          </td>
+          <td class="text-center">
+            <%= link_to orden_trabajo_path(orden_trabajo),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "¿Eliminar esta orden?"
+                        },
+                        class: "btn btn-danger btn-sm" do %>
+              <i class="fa-solid fa-trash"></i>
+            <% end %>
+
+          </td>
+
+
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

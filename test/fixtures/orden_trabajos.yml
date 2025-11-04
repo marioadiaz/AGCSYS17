@@ -1,0 +1,43 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  trnum: 1
+  trcan: 1
+  trcar: 2025-11-03
+  clinom: MyString
+  papel: MyString
+  gramaje: 1
+  colores: MyString
+  pliego: 1
+  nomprod: MyString
+  fecentr: 2025-11-03
+  cam10: MyString
+  cam12: MyString
+  cam24: MyString
+  procesos: MyString
+  observaciones: MyString
+  estado_actual: MyString
+  estado: false
+  deadline: 2025-11-03
+  priority: MyString
+
+two:
+  trnum: 1
+  trcan: 1
+  trcar: 2025-11-03
+  clinom: MyString
+  papel: MyString
+  gramaje: 1
+  colores: MyString
+  pliego: 1
+  nomprod: MyString
+  fecentr: 2025-11-03
+  cam10: MyString
+  cam12: MyString
+  cam24: MyString
+  procesos: MyString
+  observaciones: MyString
+  estado_actual: MyString
+  estado: false
+  deadline: 2025-11-03
+  priority: MyString

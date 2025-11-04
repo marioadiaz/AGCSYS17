@@ -1,0 +1,50 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Listado Taller") do |sheet|
+  # Estilos
+  header_style = sheet.styles.add_style(
+    b: true,
+    bg_color: '1E90FF',
+    fg_color: 'FFFFFF',
+    alignment: { horizontal: :center },
+    border: { style: :thin, color: '000000' }
+  )
+
+  normal_style = sheet.styles.add_style(
+    border: { style: :thin, color: '999999' },
+    alignment: { horizontal: :left }
+  )
+
+  # Título
+  sheet.add_row ["Listado de Trabajos en el Taller"], style: header_style
+  sheet.merge_cells("A1:I1")
+  sheet.add_row [] # espacio
+
+  # Encabezados
+  sheet.add_row [
+    "OT", "Cliente", "Producto", "Cantidad", "Observaciones",
+    "Estado actual", "Procesos", "Fecha entrada", "Fecha entrega"
+  ], style: header_style
+
+  # Contenido
+  @orden_trabajos.each do |orden|
+    sheet.add_row [
+      orden.trnum,
+      orden.clinom,
+      orden.nomprod,
+      orden.trcan,
+      orden.observaciones,
+      orden.estado_actual,
+      orden.procesos,
+      orden.trcar&.strftime("%d/%m/%Y"),
+      orden.deadline&.strftime("%d/%m/%Y")
+    ], style: normal_style
+  end
+
+  # Ajustar ancho automático
+  sheet.column_widths 8, 20, 25, 10, 25, 15, 20, 15, 15
+
+  # Pie
+  sheet.add_row []
+  sheet.add_row ["Generado el #{Time.zone.now.strftime('%d/%m/%Y %H:%M')}"], style: normal_style
+end
