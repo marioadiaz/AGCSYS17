@@ -14,7 +14,6 @@
         <th>Acción</th>
       </tr>
     </thead>
-
     <tbody>
       <% @orden_trabajos.limit(35).each do |orden_trabajo| %>
         <tr id="orden_trabajo_<%= orden_trabajo.id %>">
@@ -48,11 +47,11 @@
 
             <%# 🔸 Botón de confirmación %>
             <td class="text-center">
-              <%= f.button :submit, "Confirmar",
-                  class: "btn btn-primary btn-sm",
-                  data: { disable_with: "Guardando..." } %>
+              <%= f.submit "Confirmar",
+                         class: "btn btn-primary btn-sm",
+                         data: { orden_trabajo_target: "submitButton" } %>
             </td>
-
+            <%= hidden_field_tag :context, "proximo_vencer" %>  
           <% end %>
         </tr>
       <% end %>

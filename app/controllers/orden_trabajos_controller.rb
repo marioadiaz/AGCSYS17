@@ -41,7 +41,6 @@ class OrdenTrabajosController < ApplicationController
     end
   end
 
-
   def listado
     @proximo_vencimiento_ot = OrdenTrabajo.order('deadline ASC, clinom ASC').first(30)
     @orden_trabajos = OrdenTrabajo.all.order('clinom ASC, trnum ASC')
@@ -99,7 +98,10 @@ class OrdenTrabajosController < ApplicationController
     
     if @orden_trabajo.update(orden_trabajo_params)
       respond_to do |format|
-        format.turbo_stream
+        format.turbo_stream do
+          @context = params[:context].presence || "index"
+          render :update # usa update.turbo_stream.erb
+        end
         format.html { redirect_to orden_trabajo_path, notice: "Orden actualizada" }
       end
     else
