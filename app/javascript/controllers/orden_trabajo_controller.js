@@ -6,20 +6,20 @@ export default class extends Controller {
   static targets = ["submitButton", "row"]
 
   actualizado(event) {
-    console.log("✅ Método actualizado() ejecutado")
-    console.log("event.detail.success:", event.detail.success)
+    //console.log("✅ Método actualizado() ejecutado")
+    //console.log("event.detail.success:", event.detail.success)
 
     const form = event.target
     const boton = this.hasSubmitButtonTarget
       ? this.submitButtonTarget
       : form.querySelector('button[type="submit"], input[type="submit"]')
 
-    console.log("➡️ Botón detectado:", boton)
+    //console.log("➡️ Botón detectado:", boton)
   }
 
   copy(event) {
     const id = event.currentTarget.dataset.id
-    console.log("📋 Copiando orden de trabajo ID:", id)
+    //console.log("📋 Copiando orden de trabajo ID:", id)
 
     fetch(`/orden_trabajos/${id}/copy`, {
       method: "POST",

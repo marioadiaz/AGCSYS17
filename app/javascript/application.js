@@ -13,5 +13,5 @@ import "bootstrap.bundle"
 import "@fortawesome/fontawesome-free"
 
 document.addEventListener("turbo:load", () => {
-  console.log("✅ Turbo y Bootstrap funcionando con assets locales");
+  // console.log("✅ Turbo y Bootstrap funcionando con assets locales");
 });

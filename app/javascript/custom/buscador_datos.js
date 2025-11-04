@@ -4,7 +4,7 @@ document.addEventListener("turbo:load", () => {
   const $filas = $("#TablaOrdenesTrabajos tbody tr");
 
   if ($buscador.length && $filas.length) {
-    console.log("✅ Buscador inicializado, filas detectadas:", $filas.length);
+    // console.log("✅ Buscador inicializado, filas detectadas:", $filas.length);
 
     $buscador.on("keyup", function() {
       const value = $(this).val().toLowerCase().trim();
@@ -15,6 +15,6 @@ document.addEventListener("turbo:load", () => {
       });
     });
   } else {
-    console.warn("⚠️ No se encontró #buscador_datos o #TablaOrdenesTrabajos");
+    // console.warn("⚠️ No se encontró #buscador_datos o #TablaOrdenesTrabajos");
   }
 });
