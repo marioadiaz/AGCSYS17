@@ -1,0 +1,35 @@
+<tr id="<%= dom_id(orden_trabajo) %>">
+  <%= simple_form_for orden_trabajo,
+        html: { class: "d-inline", data: { controller: "form", action: "ajax:success->form#onPostSuccess" } } do |f| %>
+
+    <%# OT con color por prioridad %>
+    <% case orden_trabajo.priority
+       when "Alta" %>
+         <td style="background-color:#FF0000;"><strong><%= orden_trabajo.trnum %></strong></td>
+       <% when "Media" %>
+         <td style="background-color:#FFFF00;"><strong><%= orden_trabajo.trnum %></strong></td>
+       <% else %>
+         <td style="background-color:#7CFC00;"><strong><%= orden_trabajo.trnum %></strong></td>
+    <% end %>
+
+    <td><%= link_to orden_trabajo.clinom, orden_trabajo_path(orden_trabajo), class: "text-decoration-none fw-bold" %></td>
+    <td><%= orden_trabajo.nomprod.first(20) %></td>
+    <td><strong><%= orden_trabajo.deadline.try(:strftime, "%d-%m-%Y") %></strong></td>
+
+    <td>
+      <%= f.input :priority,
+            as: :select,
+            collection: ["Alta", "Media", "Baja"],
+            label: false,
+            input_html: { class: "form-select form-select-sm" } %>
+    </td>
+
+    <td class="text-center">
+      <%= f.submit "✅ Ok",
+                         class: "btn btn-primary btn-sm",
+                         data: { orden_trabajo_target: "submitButton" } %>
+    </td>
+
+    <%= hidden_field_tag :context, "proximo_vencer" %>
+  <% end %>
+</tr>

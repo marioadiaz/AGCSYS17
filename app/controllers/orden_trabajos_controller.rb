@@ -17,28 +17,26 @@ class OrdenTrabajosController < ApplicationController
   end
 
   def copy
-    @ot_actual = OrdenTrabajo.find(params[:id])
-    @orden_trabajo = @ot_actual.dup
+    original = OrdenTrabajo.find(params[:id])
+    @orden_trabajo = original.dup # duplica sin ID
+
+    # 🔧 Si trnum tiene validación de unicidad, lo modificás
+    @orden_trabajo.trnum = "#{original.trnum}-C" # o nil si querés regenerarlo después
 
     if @orden_trabajo.save
       respond_to do |format|
-        format.html { redirect_to orden_trabajos_path, notice: "La orden de trabajo fue duplicada." }
-        format.turbo_stream
-        format.json do
-          render json: {
-            id: @orden_trabajo.id,
-            tableRowPartial: render_to_string(
-              'orden_trabajos/partials/_table_row.html.erb',
-              layout: false,
-              locals: { orden_trabajo: @orden_trabajo }
-            )
-          }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.after(
+            dom_id(original),
+            partial: "orden_trabajo_row",
+            locals: { orden_trabajo: @orden_trabajo }
+          )
         end
+        format.html { redirect_to orden_trabajos_path, notice: "Orden duplicada correctamente" }
       end
     else
       respond_to do |format|
-        format.html { redirect_to orden_trabajos_path, alert: "No se pudo duplicar la orden." }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("flash", partial: "layouts/flash") }
+        format.html { redirect_to orden_trabajos_path, alert: "No se pudo duplicar la orden" }
       end
     end
   end
@@ -96,13 +94,20 @@ class OrdenTrabajosController < ApplicationController
   # PATCH/PUT /orden_trabajos/1 or /orden_trabajos/1.json
 
   def update
+    @orden_trabajo = OrdenTrabajo.find(params[:id])
+    
     if @orden_trabajo.update(orden_trabajo_params)
       respond_to do |format|
-        format.turbo_stream
-        format.html { redirect_to ordenes_trabajo_path, notice: "Orden actualizada" }
+        format.turbo_stream do
+          @context = params[:context].presence || "index"
+          render :update # usa update.turbo_stream.erb
+        end
+        format.html { redirect_to orden_trabajo_path, notice: "Orden actualizada" }
       end
     else
-      render :index, status: :unprocessable_entity
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 

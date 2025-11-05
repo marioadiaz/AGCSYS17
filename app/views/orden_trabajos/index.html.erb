@@ -29,8 +29,9 @@
   Tira Mi Su
 </button>
 <!-- 📋 Tabla principal -->
-<table id="TablaOrdenesTrabajos" class="table table-striped m-2" data-controller="orden-trabajo">
-  <thead>
+
+<table id="TablaOrdenesTrabajos" class="table table-striped table-hover table-responsive align-middle text-center" data-controller="orden-trabajo">
+  <thead  class="table-dark">
     <tr>
       <th>Ot</th>
       <th>Cliente</th>
@@ -41,6 +42,7 @@
       <th>Fecha entrega</th>
       <th>Observaciones</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -49,9 +51,11 @@
         <%= form_with model: orden_trabajo,
                       remote: true,
                       data: { action: "turbo:submit-end->orden-trabajo#actualizado" } do |f| %>
-          <td><button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= orden_trabajo.id %>>
-                <%= orden_trabajo.trnum %>
-              </button>
+          <td>
+            
+            <%= link_to orden_trabajo.trnum, 
+                  copy_path(orden_trabajo.id),
+                  class: "btn btn-info btn-sm" %>
           </td>
           <td><%= link_to orden_trabajo.clinom, orden_trabajo_path(orden_trabajo) %></td>
           <td><%= orden_trabajo.nomprod.first(30) %></td>
@@ -63,35 +67,14 @@
                          {}, class: "form-select form-select-sm" %>
           </td>
           <td>
-            <script>
-              document.addEventListener("turbo:load", () => {
-                const $select = $("#orden_trabajo_procesos_<%= orden_trabajo.id %>");
-
-                if ($select.length) {
-                  // 🔄 Destruye instancias previas (por Turbo)
-                  $select.selectpicker('destroy');
-                  // ✅ Inicializa el Bootstrap Select
-                  $select.selectpicker();
-
-                  // 🎯 Evento de cambio de selección
-                  $select.on("changed.bs.select", function () {
-                    const seleccion = $(this).val() || [];
-                    console.log("Procesos seleccionados:", seleccion);
-
-                    // Actualiza el campo oculto para enviarlo al servidor
-                    $("#hidden_procesos_<%= orden_trabajo.id %>").val(seleccion.join(","));
-                  });
-                }
-              });
-            </script>
-
             <!-- 🧩 Selector múltiple de procesos -->
             <select id="orden_trabajo_procesos_<%= orden_trabajo.id %>"
                     class="selectpicker"
                     multiple
                     title="Procesos"
                     data-live-search="true"
-                    data-width="100%">
+                    data-width="100%"
+                    data-controller="selectpicker">
               <% OrdenTrabajo::POST.each do |elemento_post| %>
                 <option value="<%= elemento_post %>"
                         <%= "selected" if cadenatovector(orden_trabajo.procesos).include?(elemento_post) %>>
@@ -115,7 +98,7 @@
                              size: 20 %>
           </td>
           <td class="text-center">
-            <%= f.submit "Actualizar",
+            <%= f.submit "Confirmar",
                          class: "btn btn-primary btn-sm",
                          data: { orden_trabajo_target: "submitButton" } %>
           </td>
@@ -130,8 +113,7 @@
             <% end %>
 
           </td>
-
-
+          <%= hidden_field_tag :context, "index" %>  
         <% end %>
       </tr>
     <% end %>

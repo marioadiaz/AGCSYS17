@@ -1,28 +1,9 @@
 <p id="notice"><%= notice %></p>
-
 <div class="d-flex justify-content-between align-items-center mb-4 px-3 flex-wrap">
   <!-- 🏭 Título -->
   <div class="me-4">
     <h3 class="mb-0 fw-bold">Listado de trabajos en el Taller</h3>
   </div>
-  <!-- 💡 Script de búsqueda -->
-  <script type="module">
-    document.addEventListener("turbo:load", () => {
-      const $buscador = $("#buscador_datos");
-      const $filas = $("#TablaOrdenesTrabajos tr");
-
-      if ($buscador.length && $filas.length) {
-        $buscador.on("keyup", function() {
-          const value = $(this).val().toLowerCase().trim();
-
-          $filas.each(function() {
-            const textoFila = $(this).text().toLowerCase();
-            $(this).toggle(textoFila.includes(value));
-          });
-        });
-      }
-    });
-  </script>
   <!-- 🔍 Buscador -->
   <div class="flex-grow-1 text-center">
     <input class="form-control d-inline-block w-50"
@@ -50,6 +31,8 @@
             orden_trabajos_imports_new_path,
             class: 'btn btn-primary btn-lg' %>
   </div>
+</div>
+
 <!-- Botón para volver arriba -->
 <button onclick="topFunction()" id="myBtn" title="Volver arriba"
         class="btn btn-danger shadow fw-bold text-white"
@@ -58,8 +41,8 @@
   Tira Mi Su
 </button>
 <!-- 📋 Tabla principal -->
-<table class="table table-striped m-2">
-  <thead>
+<table id="TablaOrdenesTrabajos" class="table-striped table table-responsive" data-controller="orden-trabajo">
+  <thead  class="table-dark">
     <tr>
       <th>OT</th>
       <th>Cliente</th>
@@ -86,12 +69,14 @@
         <td><%= orden_trabajo.trcar.try(:strftime, "%e %B") %></td>
         <td><%= orden_trabajo.deadline.try(:strftime, "%e %B") %></td>
         <td class="text-center">
-          <%= link_to '',
-                      orden_trabajo,
-                      method: :delete,
-                      data: { confirm: '¿Estás seguro/a?' },
-                      remote: true,
-                      class: 'delete_ot btn-lg glyphicon glyphicon-trash text-danger' %>
+          <%= link_to orden_trabajo_path(orden_trabajo),
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: "¿Eliminar esta orden?"
+                        },
+                        class: "btn btn-danger btn-sm" do %>
+              <i class="fa-solid fa-trash"></i>
+            <% end %>
         </td>
       </tr>
     <% end %>
