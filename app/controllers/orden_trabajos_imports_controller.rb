@@ -13,7 +13,9 @@ class OrdenTrabajosImportsController < ApplicationController
     if service.call
       redirect_to orden_trabajos_path, notice: "Importación completada (#{service.imported_count} registros)."
     else
-      redirect_to orden_trabajos_imports_new_path, alert: "Error en la importación: #{service.errors.join(', ')}"
+      log_path = Rails.root.join("log", "import_errors.log")
+      File.open(log_path, "a") { |f| f.puts service.errors.join("\n") }
+      redirect_to orden_trabajos_imports_new_path, alert: "Se detectaron errores (#{service.errors.count}). Revisá log/import_errors.log"
     end
   end
 end
