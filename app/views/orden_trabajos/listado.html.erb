@@ -66,8 +66,8 @@
         <td><%= truncate(orden_trabajo.observaciones, length: 50) %></td>
         <td><%= orden_trabajo.estado_actual %></td>
         <td><%= orden_trabajo.procesos %></td>
-        <td><%= orden_trabajo.trcar.try(:strftime, "%e %B") %></td>
-        <td><%= orden_trabajo.deadline.try(:strftime, "%e %B") %></td>
+        <td><%= l orden_trabajo.trcar, format: :corto if orden_trabajo.trcar.present? %></td>
+        <td><%= l orden_trabajo.deadline, format: :corto if orden_trabajo.deadline.present? %></td>
         <td class="text-center">
           <%= link_to orden_trabajo_path(orden_trabajo),
                         data: {

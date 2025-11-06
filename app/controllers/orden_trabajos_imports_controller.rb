@@ -11,9 +11,10 @@ class OrdenTrabajosImportsController < ApplicationController
     service = OrdenTrabajoImportService.new(params[:file])
 
     if service.call
-      redirect_to orden_trabajos_path, notice: "Importación completada (#{service.imported_count} registros)."
+      redirect_to orden_trabajos_path, notice: "✅ Importación completada (#{service.imported_count} registros)."
     else
-      redirect_to orden_trabajos_imports_new_path, alert: "Error en la importación: #{service.errors.join(', ')}"
+      @errors = service.errors
+      render :new, status: :unprocessable_entity
     end
   end
 end

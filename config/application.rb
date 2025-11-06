@@ -10,6 +10,9 @@ module Agcsys17
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
+    config.i18n.default_locale = :'es-AR'
+    config.i18n.available_locales = [:'es-AR', :en]
+
     config.assets.paths << Rails.root.join("vendor", "assets", "stylesheets")
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
