@@ -1,0 +1,82 @@
+<div class="container mt-4">
+
+  <h3 class="mb-3">Asignar trabajos por máquina</h3>
+
+  <!-- 🔽 Dropdown de máquinas -->
+  <div class="mb-4">
+    <label class="form-label fw-bold">Seleccione máquina:</label>
+    <%= form_with url: "#" do %>
+      <%= select_tag :maquina,
+            options_for_select(OrdenTrabajo::POST),
+            class: "form-select form-select-lg" %>
+    <% end %>
+  </div>
+
+  <hr>
+
+  <!-- 📌 Controlador Stimulus -->
+  <div data-controller="seleccion">
+    
+    <!-- ⭐ Tabla 1 - lista de clientes -->
+    <h4>Trabajos disponibles</h4>
+    <table class="table table-striped table-hover mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>OT</th>
+          <th>Cliente</th>
+          <th>Producto</th>
+          <th>Proceso</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @ordenes.each do |ot| %>
+          <tr>
+            <td><%= ot.trnum %></td>
+            <td><%= ot.clinom %></td>
+            <td><%= ot.nomprod.first(25) %></td>
+
+            <!-- 👉 Nueva columna PROCESO con identificador -->
+            <td data-proceso data-id="<%= ot.id %>"><%= ot.procesos %></td>
+
+            <td>
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                data-action="seleccion#agregar"
+                data-id="<%= ot.id %>"
+                data-cliente="<%= ot.clinom %>"
+                data-ot="<%= ot.trnum %>"
+                data-prod="<%= ot.nomprod %>"
+                data-procesos="<%= ot.procesos %>">
+                ➕ Agregar
+              </button>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+
+    <!-- ⭐ Tabla 2 - seleccionados -->
+    <h4 class="mt-4">Trabajos seleccionados</h4>
+
+    <table class="table table-bordered table-hover mt-3">
+      <thead class="table-primary">
+        <tr>
+          <th>OT</th>
+          <th>Cliente</th>
+          <th>Producto</th>
+          <th>Proceso</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody id="seleccionados" data-seleccion-target="lista">
+        <!-- Aquí Stimulus inserta filas -->
+      </tbody>
+    </table>
+  </div>
+
+</div>

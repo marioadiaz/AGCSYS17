@@ -24,13 +24,14 @@
                   <td><%= orden_trabajo.nomprod.first(25) %></td>
                   <td><%= orden_trabajo.deadline.try(:strftime, "%d-%m-%Y") %></td>
                 </tr>
-              <% elsif estado == "LISTO" && orden_trabajo.estado_actual.match?(/Impresión|Terminación/i) %>
+              <% elsif estado == "LISTO" && orden_trabajo.estado_actual&.match?(/Impresión|Terminación/i) %>
                 <tr>
                   <td><%= orden_trabajo.clinom %></td>
                   <td><%= orden_trabajo.nomprod.first(25) %></td>
                   <td><%= orden_trabajo.deadline.try(:strftime, "%d-%m-%Y") %></td>
                 </tr>
               <% end %>
+
             <% end %>
           <% end %>
         </tbody>

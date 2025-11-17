@@ -19,11 +19,16 @@ export default class extends Controller {
 
   copy(event) {
     const id = event.currentTarget.dataset.id
-    //console.log("📋 Copiando orden de trabajo ID:", id)
 
     fetch(`/orden_trabajos/${id}/copy`, {
       method: "POST",
-      headers: { Accept: "text/vnd.turbo-stream.html" }
+      headers: {
+        "Accept": "text/vnd.turbo-stream.html",
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        "Content-Type": "application/json"
+      },
+      body: "{}"
     })
   }
+
 }

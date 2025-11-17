@@ -1,0 +1,54 @@
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["lista"]
+
+  agregar(event) {
+    const boton = event.currentTarget
+
+    const id = boton.dataset.id
+    const cliente = boton.dataset.cliente
+    const ot = boton.dataset.ot
+    const prod = boton.dataset.prod
+
+    // 🟢 Insertar fila en la tabla seleccionada
+    this.listaTarget.insertAdjacentHTML("beforeend", `
+      <tr data-id="${id}">
+        <td>${ot}</td>
+        <td>${cliente}</td>
+        <td>${prod}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" data-action="seleccion#quitar" data-id="${id}">
+            ❌ Quitar
+          </button>
+        </td>
+      </tr>
+    `)
+
+    // 🟡 Cambio de texto del botón
+    boton.textContent = "✅ Ok"
+
+    // 🔒 Deshabilitarlo para que no se pueda volver a agregar
+    boton.classList.remove("btn-success")
+    boton.classList.add("btn-secondary")
+    boton.disabled = true
+  }
+
+  quitar(event) {
+    const id = event.currentTarget.dataset.id
+
+    // 🔴 Eliminar fila seleccionada
+    const fila = this.listaTarget.querySelector(`tr[data-id="${id}"]`)
+    if (fila) fila.remove()
+
+    // 🟢 Reactivar el botón original "Agregar"
+    const botonOriginal = document.querySelector(`button[data-id='${id}']`)
+
+    if (botonOriginal) {
+      botonOriginal.textContent = "➕ Agregar"
+      botonOriginal.classList.remove("btn-secondary")
+      botonOriginal.classList.add("btn-success")
+      botonOriginal.disabled = false
+    }
+  }
+}

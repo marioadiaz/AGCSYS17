@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_03_052527) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_10_202133) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -36,5 +36,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_03_052527) do
     t.string "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
+    t.index ["clinom"], name: "index_orden_trabajos_on_clinom"
+    t.index ["trnum"], name: "index_orden_trabajos_on_trnum"
   end
 end

@@ -37,15 +37,4 @@
 <!-- ============================
      AUTO SCROLL Y REFRESCO
      ============================ -->
-<script>
-  // Auto-scroll en bucle
-  setInterval(() => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 5000);
-  }, 20000);
 
-  // Recarga automática después de 60 segundos
-  setTimeout(() => {
-    window.location.href = '/planificacion_taller';
-  }, 60000);
-</script>

@@ -40,6 +40,7 @@
       <th>Estado actual</th>
       <th>Proceso</th>
       <th>Fecha entrega</th>
+      <th>Prioridad</th>
       <th>Observaciones</th>
       <th></th>
       <th></th>
@@ -51,11 +52,22 @@
         <%= form_with model: orden_trabajo,
                       remote: true,
                       data: { action: "turbo:submit-end->orden-trabajo#actualizado" } do |f| %>
-          <td>
-            
-            <%= link_to orden_trabajo.trnum, 
-                  copy_path(orden_trabajo.id),
-                  class: "btn btn-info btn-sm" %>
+          <td class="text-center">
+            <% color_class =
+                case orden_trabajo.priority
+                when "Alta"  then "btn-danger"  # rojo
+                when "Media" then "btn-warning" # amarillo
+                else              "btn-success" # verde
+                end %>
+
+            <%= link_to orden_trabajo.trnum,
+            "#",
+            class: "btn btn-sm #{color_class}",
+            data: {
+              action: "click->orden-trabajo#copy",
+              id: orden_trabajo.id
+            } %>
+
           </td>
           <td><%= link_to orden_trabajo.clinom, orden_trabajo_path(orden_trabajo) %></td>
           <td><%= orden_trabajo.nomprod.first(30) %></td>
@@ -89,6 +101,12 @@
             <%= f.date_field :deadline,
                              value: orden_trabajo.deadline,
                              class: "form-control form-control-sm" %>
+          </td>
+          <td>
+            <%= f.select :priority,
+                         ["Alta", "Media", "Baja"],
+                         { include_blank: false },
+                         class: "form-select form-select-sm" %>
           </td>
           <td>
             <%= f.text_field :observaciones,
