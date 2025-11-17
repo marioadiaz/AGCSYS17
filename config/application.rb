@@ -14,6 +14,7 @@ module Agcsys17
     config.i18n.available_locales = [:'es-AR', :en]
 
     config.assets.paths << Rails.root.join("vendor", "assets", "stylesheets")
+    config.assets.paths << Rails.root.join("app/assets/images")
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

@@ -4,7 +4,7 @@ class OrdenTrabajosImportsController < ApplicationController
 
   def create
     if params[:file].blank?
-      redirect_to orden_trabajos_imports_new_path, alert: "Debes seleccionar un archivo Excel."
+      redirect_to new_orden_trabajos_import_path, alert: "Debes seleccionar un archivo Excel."
       return
     end
 

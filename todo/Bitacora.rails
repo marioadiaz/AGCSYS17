@@ -1,0 +1,79 @@
+1.- reestructuracion de rutas abreviadas y nuevos forms vinculados
+
+✅ config/routes.rb — versión híbrida optimizada
+Rails.application.routes.draw do
+  # 🏠 Página principal: lista de órdenes de trabajo
+  root to: "orden_trabajos#index"
+
+  # =========================================================
+  # 📦 ÓRDENES DE TRABAJO (REST completo + extras)
+  # =========================================================
+  resources :orden_trabajos do
+    collection do
+      # 🔁 Reordenamiento con drag & drop
+      get  :index_reorder
+      post :reorder
+
+      # 📅 Vistas específicas
+      get :proximo_vencer
+      get :planificacion_taller
+      get :planificacion_tallerPDF
+      get :nueva_ot
+
+      # 🖨️ Vistas post impresión
+      get :listado
+      get :offset1
+      get :offset2
+      get :digital
+      get :post1
+      get :post2
+      get :post3
+      get :post4
+      get :post5
+      get :post6
+      get :post7
+    end
+
+    # 🧩 Ruta miembro para copiar una OT
+    member do
+      get :copy
+    end
+  end
+
+  # =========================================================
+  # 📥 IMPORTACIÓN DESDE EXCEL
+  # =========================================================
+  resources :orden_trabajos_imports, only: [:new, :create]
+
+  # =========================================================
+  # 🧭 RUTAS “CORTAS” (alias legibles)
+  # =========================================================
+  # 🔸 Estas rutas son alias que apuntan a las acciones del mismo controlador
+  # 🔸 No generan conflictos porque tienen nombres distintos de los helpers Rails estándar
+
+  get "proximo_vencer",         to: "orden_trabajos#proximo_vencer",         as: :proximo_vencer_short
+  get "planificacion_taller",   to: "orden_trabajos#planificacion_taller",   as: :planificacion_taller_short
+  get "planificacion_tallerPDF",to: "orden_trabajos#planificacion_tallerPDF",as: :planificacion_tallerPDF_short
+  get "nueva_ot",               to: "orden_trabajos#nueva_ot",               as: :nueva_ot_short
+end
+
+
+🧩 Cómo usarlo
+Tenés dos formas válidas de llamar a las rutas en tus vistas:
+1️⃣ Forma REST oficial (más robusta)
+<%= link_to "Próximo a vencer", proximo_vencer_orden_trabajos_path %>
+
+2️⃣ Forma abreviada (alias)
+<%= link_to "Próximo a vencer", proximo_vencer_short_path %>
+
+Ambas apuntan al mismo método OrdenTrabajosController#proximo_vencer,
+pero la segunda tiene una URL más corta (/proximo_vencer en vez de /orden_trabajos/proximo_vencer).
+
+💡 Por qué esta versión es ideal
+✅ Mantiene todas las rutas RESTful agrupadas bajo orden_trabajos.
+✅ Evita duplicación o conflictos de helpers (as: distintos).
+✅ Te da la opción de usar URLs cortas en el menú de navegación, sin romper convenciones.
+✅ Compatible con tus vistas actuales (index, listado, proximo_vencer, etc.).
+✅ Escalable: si más adelante añadís controladores o módulos (por ejemplo, orden_trabajos_api), no choca con las rutas actuales.
+
+¿Querés que te deje el bloque <nav> de tu application.html.erb actualizado con estos nuevos alias (*_short_path), listo para pegar y probar?

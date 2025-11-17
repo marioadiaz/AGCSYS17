@@ -5,10 +5,21 @@
                   data: { action: "turbo:submit-end->orden-trabajo#actualizado" } do |f| %>
 
       <!-- OT -->
-      <td>
-        <button type="button" class="btn btn-info btn-sm" data-action="click->orders#copy" data-id=<%= @orden_trabajo.id %>>
-          <%= @orden_trabajo.trnum %>
-        </button>
+      <td class="text-center">
+            <% color_class =
+                case orden_trabajo.priority
+                when "Alta"  then "btn-danger"  # rojo
+                when "Media" then "btn-warning" # amarillo
+                else              "btn-success" # verde
+                end %>
+
+            <%= link_to orden_trabajo.trnum,
+            "#",
+            class: "btn btn-sm #{color_class}",
+            data: {
+              action: "click->orden-trabajo#copy",
+              id: orden_trabajo.id
+            } %>
       </td>
       <td><%= link_to @orden_trabajo.clinom, orden_trabajo_path(@orden_trabajo) %></td>
       <td><%= @orden_trabajo.nomprod.first(30) %></td>
@@ -29,6 +40,12 @@
         <%= f.date_field :fecentr,
                          value: @orden_trabajo.fecentr,
                          class: "form-control form-control-sm" %>
+      </td>
+      <td>
+        <%= f.select :priority,
+                         ["Alta", "Media", "Baja"],
+                         { include_blank: false },
+                         class: "form-select form-select-sm" %>
       </td>
       <td>
         <%= f.text_field :observaciones,
