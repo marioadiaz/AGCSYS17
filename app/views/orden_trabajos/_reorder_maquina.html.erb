@@ -14,6 +14,8 @@
         <th>N° OT</th>
         <th>Cliente</th>
         <th>Producto</th>
+        <th>Estad Actual</th>
+        <th>Fecha Entrega</th>
       </tr>
     </thead>
 
@@ -25,9 +27,21 @@
 
         <tr data-id="<%= orden.id %>" draggable="true">
           <td><%= orden.position %></td>
-          <td><%= orden.trnum %></td>
-          <td><%= orden.clinom %></td>
+          
+          <td class="
+            <%=
+              case orden.priority
+              when 'Alta'  then 'bg-danger text-white'
+              when 'Media' then 'bg-warning'
+              else              'bg-success text-white'
+              end
+            %>">
+            <strong><%= orden.trnum %></strong>
+          </td>          
+          <td><%= link_to orden.clinom, orden_trabajo_path(orden)%></td>
           <td><%= orden.nomprod.first(40) %></td>
+          <td><%= orden.estado_actual %></td>
+          <td><%= orden.deadline %></td>
         </tr>
 
       <% end %>
