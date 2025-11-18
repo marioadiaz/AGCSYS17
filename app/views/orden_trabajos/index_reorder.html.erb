@@ -1,30 +1,13 @@
 <div class="container mt-4">
-  <h3 class="mb-4 text-center">🔀 Reordenar Órdenes de Trabajo</h3>
+  <h3 class="mb-4 text-center">🔀 Reordenar Órdenes por Máquina</h3>
 
-  <table class="table table-striped table-hover text-center align-middle"
-         data-controller="sortable"
-         data-sortable-url-value="<%= reorder_orden_trabajos_path %>">
-    <thead class="table-dark">
-      <tr>
-        <th>Posición</th>
-        <th>N° OT</th>
-        <th>Cliente</th>
-        <th>Producto</th>
-      </tr>
-    </thead>
-    <tbody data-sortable-target="tbody">
-      <% @orden_trabajos.order(:position).each do |orden| %>
-        <tr data-id="<%= orden.id %>" draggable="true">
-          <td><%= orden.position %></td>
-          <td><%= orden.trnum %></td>
-          <td><%= orden.clinom %></td>
-          <td><%= orden.nomprod.first(40) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <% OrdenTrabajo::POST.each do |proceso| %>
+    <%= render "reorder_maquina", proceso: proceso %>
+  <% end %>
 
   <div class="text-center mt-4">
-    <%= link_to "⬅ Volver al listado principal", orden_trabajos_path, class: "btn btn-secondary" %>
+    <%= link_to "⬅ Volver al listado principal",
+                orden_trabajos_path,
+                class: "btn btn-secondary" %>
   </div>
 </div>

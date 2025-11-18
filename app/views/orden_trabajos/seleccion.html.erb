@@ -44,7 +44,16 @@
       <tbody>
         <% @ordenes.each do |ot| %>
           <tr>
-            <td><%= ot.trnum %></td>
+            <td class="
+                    <%=
+                      case ot.priority
+                      when 'Alta'  then 'bg-danger text-white'
+                      when 'Media' then 'bg-warning'
+                      else              'bg-success text-white'
+                      end
+                    %>">
+                    <strong><%= ot.trnum %></strong>
+            </td>
             <td><%= link_to ot.clinom,
                     orden_trabajo_path(ot)%></td>
             <td><%= ot.nomprod.first(25) %></td>

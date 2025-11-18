@@ -125,7 +125,8 @@
       <tbody>
         <% @orden_trabajos.each do |orden_trabajo| %>
           <% if cadenatovector(orden_trabajo.procesos).include?(clave) &&
-                orden_trabajo.estado_actual.include?("Impresión") %>
+      orden_trabajo.estado_actual&.include?("Impresión") %>
+
             <tr>
               <td><%= orden_trabajo.trnum %></td>
               <td><%= orden_trabajo.clinom %></td>

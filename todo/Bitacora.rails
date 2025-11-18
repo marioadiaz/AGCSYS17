@@ -77,3 +77,107 @@ pero la segunda tiene una URL más corta (/proximo_vencer en vez de /orden_traba
 ✅ Escalable: si más adelante añadís controladores o módulos (por ejemplo, orden_trabajos_api), no choca con las rutas actuales.
 
 ¿Querés que te deje el bloque <nav> de tu application.html.erb actualizado con estos nuevos alias (*_short_path), listo para pegar y probar?
+
+IMPRESION PANTALLAS
+
+POST1
+<!-- 🟦 Tabla Laminado -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Lam") %>
+<!-- 🟨 Tabla Buv -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Buv") %>
+
+POST2
+<!-- 🟦 Tabla Tipografía -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Tipografia") %>
+<!-- 🟨 Tabla Fidia -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Fidia") %>
+
+POST3
+<!-- 🟩 Tabla Baum -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Baum") %>
+<!-- 🟦 Tabla Renz -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Renz") %>
+
+POST4
+<!-- 🟩 Tabla Duplo -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Duplo") %>
+<!-- 🟨 Tabla Cosedora Hilo -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("C.Hilo") %>
+<!-- 🟦 Tabla Binder -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Binder") %>
+
+POST5
+<!-- 🟩 Tabla Zechini -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Zechini") %>
+<!-- 🟨 Tabla Alzadora -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Alzadora") %>
+<!-- 🟦 Tabla Cos. Alambre -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("C.Alambre") %>
+
+POST6
+<!-- 🟩 Tabla Guillotina -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Guillotina") %>
+<!-- 🟨 Tabla T-Manual -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("T.Manual") %>
+<!-- 🟦 Tabla Otros -->
+<% if orden_trabajo.estado_actual == "Terminación" && cadenatovector(orden_trabajo.procesos).include?("Otros") %>
+
+DIGITAL
+<!-- 🟦 Kónica Color -->
+<% if orden_trabajo.estado_actual == "Impresión" && cadenatovector(orden_trabajo.procesos).include?("Ko") %>
+<!-- 🟨 Kónica Monocolor -->
+<% if orden_trabajo.estado_actual == "Impresión" && cadenatovector(orden_trabajo.procesos).include?("Xe") %>
+OFFSET1
+<!-- 🟦 Tabla SM -->
+<% if orden_trabajo.estado_actual == "Impresión" && cadenatovector(orden_trabajo.procesos).include?("SM") %>
+<!-- 🟨 Tabla PM -->
+<% if orden_trabajo.estado_actual == "Impresión" && cadenatovector(orden_trabajo.procesos).include?("PM") %>
+
+OFFSET2
+<!-- 🟦 Tabla GTO -->
+<% if cadenatovector(orden_trabajo.procesos).include?("GTO") %>
+<!-- 🟨 Tabla SORZ -->
+<% if cadenatovector(orden_trabajo.procesos).include?("SORZ") %>
+
+PLANIFICACION TALLER
+
+<% if estado == "en espera" &&!["Impresión", "Pendiente", "Terminación", "Empaque"].include?(orden_trabajo.estado_actual) %>
+
+<%= render partial: "proceso", locals: { proceso: "SM" } %>
+              
+<%= render partial: "proceso", locals: { proceso: "PM" } %>
+
+<%= render partial: "proceso", locals: { proceso: "GTO" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Ko" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Xe" } %>
+
+<%= render partial: "proceso", locals: { proceso: "SORZ" } %>
+
+<h1 class="m-3 bg-primary text-center p-2 text-white rounded">
+  <strong>TERMINACIÓN</strong>
+</h1>
+
+<!-- ============================
+     PROCESOS DE TERMINACIÓN
+     ============================ -->
+<% elsif estado == "LISTO" && orden_trabajo.estado_actual&.match?(/Impresión|Terminación/i) %>
+
+<%= render partial: "proceso", locals: { proceso: "Tipografia" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Binder" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Duplo" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Lam" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Zechini" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Baum" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Fidia" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Buv" } %>
+
+<%= render partial: "proceso", locals: { proceso: "Renz" } %>
