@@ -25,22 +25,21 @@ class OrdenTrabajosController < ApplicationController
   end
 
   def reorder
-    ids = params[:ids]
+    ids = params[:ids] || params[:_json]
 
     if ids.blank?
-      return render json: { error: "Sin parámetros de orden" }, status: :unprocessable_entity
+      render json: { error: "Sin parámetros de orden" }, status: :unprocessable_entity
+      return
     end
 
-    # 💡 Solo reordena las filas de esta máquina
-    proceso = params[:proceso]
+    proceso = params[:proceso]  # viene desde la URL
 
-    OrdenTrabajo.where(id: ids).each_with_index do |ot, index|
-      ot.update(position: index + 1)
+    ids.each_with_index do |id, index|
+      OrdenTrabajo.where(id: id).update_all(position: index + 1)
     end
 
     render json: { ok: true }
   end
-
 
   def copy
     original = OrdenTrabajo.find(params[:id])

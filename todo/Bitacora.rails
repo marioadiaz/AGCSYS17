@@ -181,3 +181,17 @@ PLANIFICACION TALLER
 <%= render partial: "proceso", locals: { proceso: "Buv" } %>
 
 <%= render partial: "proceso", locals: { proceso: "Renz" } %>
+
+✅ 5. Revisá la columna position en la base
+
+Abrí postgres:
+
+SELECT id, trnum, position FROM orden_trabajos
+ORDER BY position;
+
+
+Si todas las position son NULL → necesitás inicializarlas:
+
+OrdenTrabajo.order(:id).each_with_index do |ot, i|
+  ot.update(position: i + 1)
+end
