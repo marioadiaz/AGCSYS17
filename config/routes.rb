@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   # 🔸 No generan conflictos porque tienen nombres distintos de los helpers Rails estándar
   
   get "seleccion",                 to: "orden_trabajos#seleccion",              as: :seleccion
+  get "index_reorder",             to: "orden_trabajos#index_reorder",          as: :index_reorder
 
   #post "/orden_trabajos/:id/copy", to: "orden_trabajos#copy",                   as: :copy_orden_trabajo
 
