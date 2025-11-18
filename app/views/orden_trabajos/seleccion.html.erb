@@ -2,24 +2,35 @@
 
   <h3 class="mb-3">Asignar trabajos por máquina</h3>
 
-  <!-- 🔽 Dropdown de máquinas -->
-  <div class="mb-4">
-    <label class="form-label fw-bold">Seleccione máquina:</label>
-    <%= form_with url: "#" do %>
-      <%= select_tag :maquina,
-            options_for_select(OrdenTrabajo::POST),
-            class: "form-select form-select-lg" %>
-    <% end %>
+  <div class="row align-items-center mb-4">
+
+    <!-- 🔽 Dropdown máquinas -->
+    <div class="col-md-4">
+      <label class="form-label fw-bold mb-1 fs-4">Seleccione máquina</label>
+      <%= form_with url: "#" do %>
+        <%= select_tag :maquina,
+              options_for_select(OrdenTrabajo::POST),
+              class: "form-select form-select-lg" %>
+      <% end %>
+    </div>
+
+    <!-- 🔍 Buscador -->
+    <div class="col-md-8">
+      <label class="form-label fw-bold mb-1 fs-4">Buscar</label>
+      <input class="form-control"
+             id="buscador_datos"
+             type="text"
+             placeholder="Buscar trabajo...">
+    </div>
+
   </div>
-
   <hr>
-
   <!-- 📌 Controlador Stimulus -->
   <div data-controller="seleccion">
     
     <!-- ⭐ Tabla 1 - lista de clientes -->
     <h4>Trabajos disponibles</h4>
-    <table class="table table-striped table-hover mt-3">
+    <table id="TablaOrdenesTrabajos" class="table table-striped table-hover table-responsive align-middle text-center">
       <thead class="table-dark">
         <tr>
           <th>OT</th>
@@ -34,7 +45,8 @@
         <% @ordenes.each do |ot| %>
           <tr>
             <td><%= ot.trnum %></td>
-            <td><%= ot.clinom %></td>
+            <td><%= link_to ot.clinom,
+                    orden_trabajo_path(ot)%></td>
             <td><%= ot.nomprod.first(25) %></td>
 
             <!-- 👉 Nueva columna PROCESO con identificador -->
