@@ -61,7 +61,7 @@
       <tr>
         <td><%= link_to orden_trabajo.trnum, orden_trabajo %></td>
         <td><%= link_to orden_trabajo.clinom, orden_trabajo %></td>
-        <td><%= link_to orden_trabajo.nomprod, orden_trabajo %></td>
+        <td><%= orden_trabajo.nomprod %></td>
         <td><%= orden_trabajo.trcan %></td>
         <td><%= truncate(orden_trabajo.observaciones, length: 50) %></td>
         <td><%= orden_trabajo.estado_actual %></td>

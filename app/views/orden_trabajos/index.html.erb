@@ -55,19 +55,19 @@
           <td class="text-center">
             <% color_class =
                 case orden_trabajo.priority
-                when "Alta"  then "btn-danger"  # rojo
-                when "Media" then "btn-warning" # amarillo
-                else              "btn-success" # verde
+                when "Alta"  then "btn-danger"
+                when "Media" then "btn-warning"
+                when "Baja"  then "btn-success"
+                else              "btn-secondary" # <- gris si nil
                 end %>
 
             <%= link_to orden_trabajo.trnum,
-            "#",
-            class: "btn btn-sm #{color_class}",
-            data: {
-              action: "click->orden-trabajo#copy",
-              id: orden_trabajo.id
-            } %>
-
+                        "#",
+                        class: "btn btn-sm #{color_class}",
+                        data: {
+                          action: "click->orden-trabajo#copy",
+                          id: orden_trabajo.id
+                        } %>
           </td>
           <td><%= link_to orden_trabajo.clinom, orden_trabajo_path(orden_trabajo) %></td>
           <td><%= orden_trabajo.nomprod.first(30) %></td>
@@ -104,8 +104,8 @@
           </td>
           <td>
             <%= f.select :priority,
-                         ["Alta", "Media", "Baja"],
-                         { include_blank: false },
+                         [["Sel. Prioridad", nil], "Alta", "Media", "Baja"],
+                         { selected: orden_trabajo.priority },
                          class: "form-select form-select-sm" %>
           </td>
           <td>

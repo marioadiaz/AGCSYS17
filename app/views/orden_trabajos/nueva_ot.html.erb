@@ -1,9 +1,16 @@
 <h1 class="m-3 bg-primary text-center p-2 text-white rounded">
-  <strong>Nuevas órdenes de trabajo</strong>
+  <strong>Insumos y tintas de trabajos</strong>
 </h1>
+  <!-- 🔍 Buscador -->
+  <div class="flex-grow-1 text-center my-2">
+    <input class="form-control d-inline-block w-50"
+           id="buscador_datos"
+           type="text"
+           placeholder="Buscar trabajo...">
+  </div>
 
 <div class="container">
-  <table class="table table-striped table-hover align-middle">
+  <table id="TablaOrdenesTrabajos" class="table table-striped table-hover table-responsive align-middle text-center">
     <thead class="bg-info text-white">
       <tr>
         <th>OT</th>
@@ -12,9 +19,7 @@
         <th>Cantidad</th>
         <th>Papel</th>
         <th>Gramaje</th>
-        <th>Estado</th>
-        <th>Fecha ingreso</th>
-        <th>Fecha prometida</th>
+        <th>Color</th>        
       </tr>
     </thead>
 
@@ -29,9 +34,7 @@
           <td><%= orden_trabajo.trcan %></td>
           <td><strong><%= orden_trabajo.papel %></strong></td>
           <td><strong><%= orden_trabajo.gramaje %></strong></td>
-          <td><%= orden_trabajo.estado_actual %></td>
-          <td><%= orden_trabajo.trcar.try(:strftime, "%d-%m-%Y") %></td>
-          <td><%= orden_trabajo.deadline.try(:strftime, "%d-%m-%Y") %></td>
+          <td><strong><%= orden_trabajo.colores %></strong></td>          
         </tr>
       <% end %>
     </tbody>

@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   
   get "seleccion",                 to: "orden_trabajos#seleccion",              as: :seleccion
   get "index_reorder",             to: "orden_trabajos#index_reorder",          as: :index_reorder
+  #post "orden_trabajos/reorder",   to: "orden_trabajos#reorder",                as: :reorder_orden_trabajos
 
   #post "/orden_trabajos/:id/copy", to: "orden_trabajos#copy",                   as: :copy_orden_trabajo
 
