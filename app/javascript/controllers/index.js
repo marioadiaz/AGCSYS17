@@ -6,5 +6,6 @@ eagerLoadControllersFrom("controllers", application)
 import SortableController from "controllers/sortable_controller"
 import SeleccionController from "controllers/seleccion_controller"
 
+
 application.register("sortable", SortableController)
 application.register("seleccion", SeleccionController)
