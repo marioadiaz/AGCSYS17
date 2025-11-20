@@ -5,7 +5,9 @@ export default class extends Controller {
   static values = { url: String }
 
   connect() {
+    console.log("🧩 Controlador sortable conectado")
     this.dragged = null
+
     this.tbodyTarget.addEventListener("dragstart", this.onDragStart.bind(this))
     this.tbodyTarget.addEventListener("dragover", this.onDragOver.bind(this))
     this.tbodyTarget.addEventListener("drop", this.onDrop.bind(this))
@@ -23,7 +25,6 @@ export default class extends Controller {
       const tbody = this.tbodyTarget
       const rect = target.getBoundingClientRect()
       const midpoint = rect.top + rect.height / 2
-
       if (event.clientY < midpoint) {
         tbody.insertBefore(this.dragged, target)
       } else {
@@ -41,6 +42,7 @@ export default class extends Controller {
   updateOrder() {
     const ids = Array.from(this.tbodyTarget.querySelectorAll("tr"))
       .map(row => row.dataset.id)
+    console.log("📦 Nuevo orden a enviar:", ids)
 
     fetch(this.urlValue, {
       method: "POST",
@@ -51,5 +53,13 @@ export default class extends Controller {
       },
       body: JSON.stringify({ ids: ids })
     })
+    .then(response => {
+      if (response.ok) {
+        console.log("✅ Orden actualizado correctamente")
+      } else {
+        console.error("❌ Error al actualizar orden", response)
+      }
+    })
+    .catch(err => console.error("💥 Error de red:", err))
   }
 }

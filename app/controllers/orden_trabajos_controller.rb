@@ -22,7 +22,16 @@ class OrdenTrabajosController < ApplicationController
 
   def index_reorder
     @orden_trabajos = OrdenTrabajo.all.order(:position)
+    respond_to do |format|
+      format.html
+      format.js
+      format.json { render json: @orden_trabajos}
+             format.pdf do
+        render pdf: 'index_reorder/pdf', pdf: 'index_reorder'
+      end
+    end
   end
+
 
   def reorder
     ids = params[:ids] || params[:_json]

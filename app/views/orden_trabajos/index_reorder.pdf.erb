@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Planilla de Reordenamiento</title>
+
+  <style>
+    /* === ESTILOS GENERALES === */
+    body {
+      font-family: "Arial", sans-serif;
+      font-size: 10pt;
+      margin: 10px;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      margin: 5px 0;
+      padding: 4px;
+    }
+
+    h3.titulo-maquina {
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      padding: 6px;
+    }
+
+    /* === TABLAS === */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border: 1px solid #555;
+      padding: 4px;
+      text-align: center;
+      word-wrap: break-word;
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+    }
+
+    /* === COLORES PRIORIDAD === */
+    .prio-alta {
+      background: #dc3545;
+      color: white;
+      font-weight: bold;
+    }
+
+    .prio-media {
+      background: #ffc107;
+      color: black;
+    }
+
+    .prio-baja {
+      background: #28a745;
+      color: white;
+    }
+
+    .page-break {
+      page-break-after: always;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>📄 Reordenamiento por Máquina</h1>
+<p style="text-align:center">Fecha: <%= Date.today.strftime("%d/%m/%Y") %></p>
+
+<% OrdenTrabajo::POST.each_with_index do |proceso, index| %>
+
+  <h3 class="titulo-maquina"><%= proceso %></h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:6%">Pos</th>
+        <th style="width:10%">OT</th>
+        <th style="width:20%">Cliente</th>
+        <th style="width:30%">Producto</th>
+        <th style="width:8%">Cant.</th>
+        <th style="width:10%">Papel</th>
+        <th style="width:8%">Gram.</th>
+        <th style="width:8%">Color</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @orden_trabajos
+          .select { |ot| cadenatovector(ot.procesos).include?(proceso) }
+          .sort_by(&:position)
+          .each do |orden| %>
+
+        <% clase_prioridad =
+            case orden.priority
+            when "Alta"  then "prio-alta"
+            when "Media" then "prio-media"
+            else               "prio-baja"
+            end %>
+
+        <tr>
+          <td><%= orden.position %></td>
+          <td class="<%= clase_prioridad %>"><%= orden.trnum %></td>
+          <td><%= orden.clinom %></td>
+          <td><%= orden.nomprod.to_s.first(40) %></td>
+          <td><%= orden.trcan %></td>
+          <td><%= orden.papel %></td>
+          <td><%= orden.gramaje %></td>
+          <td><%= orden.colores %></td>
+        </tr>
+
+      <% end %>
+    </tbody>
+  </table>
+
+  <%# → salto de página entre máquinas %>
+  <% unless index == OrdenTrabajo::POST.size - 1 %>
+    <div class="page-break"></div>
+  <% end %>
+
+<% end %>
+
+</body>
+</html>

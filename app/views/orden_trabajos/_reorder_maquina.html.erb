@@ -14,8 +14,10 @@
         <th>N° OT</th>
         <th>Cliente</th>
         <th>Producto</th>
-        <th>Estad Actual</th>
-        <th>Fecha Entrega</th>
+        <th>Cantidad</th>
+        <th>Papel</th>
+        <th>Gramaje</th>
+        <th>Color</th>
       </tr>
     </thead>
 
@@ -42,8 +44,10 @@
           </td>          
           <td><%= link_to orden.clinom, orden_trabajo_path(orden)%></td>
           <td><%= orden.nomprod.first(40) %></td>
-          <td><%= orden.estado_actual %></td>
-          <td><%= orden.deadline %></td>
+          <td><%= orden.trcan %></td>
+          <td><%= orden.papel %></td>
+          <td><%= orden.gramaje %></td>
+          <td><%= orden.colores %></td>
         </tr>
 
       <% end %>
